@@ -1,8 +1,14 @@
 [
     {
-        "id": 8732078228,
-        "nome": "Alexa",
-        "preco": 50.5,
+        "id": 977365090,
+        "nome": "Estojo",
+        "preco": 49.99,
         "ativo": true
+    },
+    {
+        "id": 3383796008,
+        "nome": "Alexa",
+        "preco": 499.7,
+        "ativo": false
     }
 ]

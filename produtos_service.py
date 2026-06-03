@@ -13,6 +13,7 @@ import string
 from formatadores import formatar_moeda, formatar_status
 from produtos_repository import listar, salvar
 from validacoes import (
+    validar_entrada_ativar_desativar_produto,
     validar_entrada_id_produto,
     validar_entrada_nome_produto,
     validar_entrada_preco_produto,
@@ -41,6 +42,9 @@ class Produtos:
         self.itens = itens if itens is not None else []
 
     def adicionar_produto(self):
+        data = listar()
+        produtos = [Produto(**produto) for produto in data]
+
         produto_id = gerar_id_valido()
         produto_nome = validar_entrada_nome_produto(input("Nome: "))
         produto_preco = validar_entrada_preco_produto(input("Preço unitário: "))
@@ -50,8 +54,8 @@ class Produtos:
             id=produto_id, nome=produto_nome, preco=produto_preco, ativo=produto_ativo
         )
 
-        self.itens.append(produto)
-        salvar(self.itens)
+        produtos.append(produto)
+        salvar(produtos)
 
         print("")
 
@@ -147,14 +151,63 @@ def atualizar_preco():
         print(f"Preço: {formatar_moeda(produto_encontrado.preco)}")
         print(f"Status: {formatar_status(produto_encontrado.ativo)}")
         print("---------------------------------------")
+
+        produto_encontrado.preco = validar_entrada_preco_produto(
+            input("Novo preço unitário: ")
+        )
+
+        salvar(produtos)
+
+        print("Preço atualizado com sucesso!")
         print("")
+
     else:
         print("Produto não encontrado.")
         print("")
 
 
 def inativar_produto():
-    print("Inativando produto...")
+    data = listar()
+    produtos = [Produto(**produto) for produto in data]
+
+    print("======= Inativação de produto =========")
+
+    if not produtos:
+        print("Nenhum produto cadastrado...")
+        print("")
+
+        return
+
+    id_busca = validar_entrada_id_produto(
+        input("Digite o ID do produto que deseja inativar: ")
+    )
+
+    produto_encontrado = next(
+        (produto for produto in produtos if produto.id == id_busca), None
+    )
+
+    if produto_encontrado is not None:
+        print("")
+        print("========= Produto encontrado ==========")
+        print("---------------------------------------")
+        print(f"ID: {produto_encontrado.id}")
+        print(f"Nome: {produto_encontrado.nome}")
+        print(f"Preço: {formatar_moeda(produto_encontrado.preco)}")
+        print(f"Status: {formatar_status(produto_encontrado.ativo)}")
+        print("---------------------------------------")
+
+        produto_encontrado.ativo = validar_entrada_ativar_desativar_produto(
+            input("Novo status (Digite 'Inativar' ou 'Ativar'): ")
+        )
+
+        salvar(produtos)
+
+        print("Status atualizado com sucesso!")
+        print("")
+
+    else:
+        print("Produto não encontrado.")
+        print("")
 
 
 def gerar_id_valido():

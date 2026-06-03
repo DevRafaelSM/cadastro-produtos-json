@@ -29,6 +29,28 @@ def validar_entrada_preco_produto(entrada: str) -> float:
             entrada = input("Preço inválido. Por favor, insira um valor positivo: ")
 
 
+def validar_entrada_ativar_desativar_produto(entrada: str) -> bool:
+    while True:
+        try:
+            entrada = entrada.strip().lower()
+
+            if entrada == "inativar":
+                return False
+
+            elif entrada == "ativar":
+                return True
+
+            else:
+                entrada = input(
+                    "Status inválido. Por favor, insira 'Inativar' para inativar o produto ou 'Ativar' para ativá-lo: "
+                )
+
+        except ValueError:
+            entrada = input(
+                "Status inválido. Por favor, insira 'Inativar' para inativar o produto ou 'Ativar' para ativá-lo: "
+            )
+
+
 def validar_entrada_id_produto(entrada: str) -> int:
     while True:
         try:
