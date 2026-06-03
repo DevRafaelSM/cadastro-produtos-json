@@ -56,11 +56,7 @@ class Produtos:
         print("")
 
 
-def cadastrar_produto(produtos: Produtos):
-    produtos.adicionar_produto()
-
-
-def mostrar_lista_produtos_console():
+def listar_produtos():
     data = listar()
     produtos = [Produto(**produto) for produto in data]
 
@@ -122,12 +118,39 @@ def buscar_produtos():
         print("")
 
 
-def buscar_produto_por_id():
-    buscar_produtos()
-
-
 def atualizar_preco():
-    print("Atualizando preço do produto...")
+    data = listar()
+    produtos = [Produto(**produto) for produto in data]
+
+    print("======== Atualização de preço =========")
+
+    if not produtos:
+        print("Nenhum produto cadastrado...")
+        print("")
+
+        return
+
+    id_busca = validar_entrada_id_produto(
+        input("Digite o ID do produto que deseja atualizar: ")
+    )
+
+    produto_encontrado = next(
+        (produto for produto in produtos if produto.id == id_busca), None
+    )
+
+    if produto_encontrado is not None:
+        print("")
+        print("========= Produto encontrado ==========")
+        print("---------------------------------------")
+        print(f"ID: {produto_encontrado.id}")
+        print(f"Nome: {produto_encontrado.nome}")
+        print(f"Preço: {formatar_moeda(produto_encontrado.preco)}")
+        print(f"Status: {formatar_status(produto_encontrado.ativo)}")
+        print("---------------------------------------")
+        print("")
+    else:
+        print("Produto não encontrado.")
+        print("")
 
 
 def inativar_produto():

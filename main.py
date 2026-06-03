@@ -8,10 +8,9 @@
 from produtos_service import (
     Produtos,
     atualizar_preco,
-    buscar_produto_por_id,
-    cadastrar_produto,
+    buscar_produtos,
     inativar_produto,
-    mostrar_lista_produtos_console,
+    listar_produtos,
 )
 
 
@@ -34,11 +33,11 @@ def main():
 
         match opcao:
             case "1":
-                cadastrar_produto(produtos)
+                produtos.adicionar_produto()
             case "2":
-                mostrar_lista_produtos_console()
+                listar_produtos()
             case "3":
-                buscar_produto_por_id()
+                buscar_produtos()
             case "4":
                 atualizar_preco()
             case "5":
