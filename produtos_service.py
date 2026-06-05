@@ -1,20 +1,11 @@
-# cadastrar produto
-# listar produtos
-# buscar produto
-# atualizar preço
-# inativar produto
-# verificar duplicidade de nome
-# montar os dados de um novo produto
-
-
 import random
 import string
 
 from formatadores import formatar_moeda, formatar_status
 from produtos_repository import listar, salvar
 from validacoes import (
-    validar_entrada_ativar_desativar_produto,
     validar_entrada_id_produto,
+    validar_entrada_inativar_produto,
     validar_entrada_nome_produto,
     validar_entrada_preco_produto,
 )
@@ -45,8 +36,8 @@ class Produtos:
         data = listar()
         produtos = [Produto(**produto) for produto in data]
 
-        produto_id = gerar_id_valido()
-        produto_nome = validar_entrada_nome_produto(input("Nome: "))
+        produto_id = gerar_id_valido(produtos)
+        produto_nome = validar_entrada_nome_produto(input("Nome: "), produtos)
         produto_preco = validar_entrada_preco_produto(input("Preço unitário: "))
         produto_ativo = True
 
@@ -139,7 +130,12 @@ def atualizar_preco():
     )
 
     produto_encontrado = next(
-        (produto for produto in produtos if produto.id == id_busca), None
+        (
+            produto
+            for produto in produtos
+            if produto.id == id_busca and produto.ativo == True
+        ),
+        None,
     )
 
     if produto_encontrado is not None:
@@ -162,7 +158,7 @@ def atualizar_preco():
         print("")
 
     else:
-        print("Produto não encontrado.")
+        print("Produto não encontrado ou inativo.")
         print("")
 
 
@@ -183,7 +179,12 @@ def inativar_produto():
     )
 
     produto_encontrado = next(
-        (produto for produto in produtos if produto.id == id_busca), None
+        (
+            produto
+            for produto in produtos
+            if produto.id == id_busca and produto.ativo == True
+        ),
+        None,
     )
 
     if produto_encontrado is not None:
@@ -196,8 +197,8 @@ def inativar_produto():
         print(f"Status: {formatar_status(produto_encontrado.ativo)}")
         print("---------------------------------------")
 
-        produto_encontrado.ativo = validar_entrada_ativar_desativar_produto(
-            input("Novo status (Digite 'Inativar' ou 'Ativar'): ")
+        produto_encontrado.ativo = validar_entrada_inativar_produto(
+            input("Novo status (Digite 'Inativar' para inativar o produto): ")
         )
 
         salvar(produtos)
@@ -206,10 +207,15 @@ def inativar_produto():
         print("")
 
     else:
-        print("Produto não encontrado.")
+        print("Produto não encontrado ou já inativo.")
         print("")
 
 
-def gerar_id_valido():
-    random_id = "".join(random.choices(string.digits, k=10))
-    return int(random_id)
+def gerar_id_valido(produtos: list[Produto]) -> int:
+    lista_ids_existente = {produto.id for produto in produtos}
+
+    while True:
+        random_id = int("".join(random.choices(string.digits, k=10)))
+
+        if random_id not in lista_ids_existente:
+            return random_id

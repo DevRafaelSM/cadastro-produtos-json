@@ -1,15 +1,5 @@
-# ler produtos do arquivo
-# salvar produtos no arquivo
-# garantir que o arquivo exista
-# garantir que a pasta data exista, se necessário
-
-# json.load(): Lê
-# json.dump(): Salva
-
 import json
 from typing import Any
-
-# from produtos_service import Produto
 
 
 def listar() -> list[dict[str, Any]]:

@@ -6,9 +6,15 @@
         "ativo": true
     },
     {
-        "id": 3383796008,
+        "id": 9984570505,
+        "nome": "Controle",
+        "preco": 10.99,
+        "ativo": false
+    },
+    {
+        "id": 4461917508,
         "nome": "Alexa",
-        "preco": 499.7,
+        "preco": 399.99,
         "ativo": false
     }
 ]

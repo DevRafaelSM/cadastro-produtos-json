@@ -1,10 +1,3 @@
-# exibir o menu
-# capturar a opção do usuário
-# controlar o fluxo principal
-# chamar as funções do service
-# encerrar o programa
-
-
 from produtos_service import (
     Produtos,
     atualizar_preco,
