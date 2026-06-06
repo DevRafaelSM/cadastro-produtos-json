@@ -1,5 +1,6 @@
+from produtos_repository import inicializar_sistema
 from produtos_service import (
-    Produtos,
+    adicionar_produto,
     atualizar_preco,
     buscar_produtos,
     inativar_produto,
@@ -9,7 +10,7 @@ from produtos_service import (
 
 def main():
 
-    produtos = Produtos()
+    inicializar_sistema()
 
     while True:
         print("========= Cadastro de Produtos ========")
@@ -26,7 +27,7 @@ def main():
 
         match opcao:
             case "1":
-                produtos.adicionar_produto()
+                adicionar_produto()
             case "2":
                 listar_produtos()
             case "3":
